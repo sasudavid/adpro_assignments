@@ -154,13 +154,14 @@ object ExercisesOption {
   // Exercise 9
 
   def sequence[A] (aos: List[Option[A]]): Option[List[A]] = 
-    aos.foldRight[Option[List[A]]](Some(Nil))((x,y) => map2(x,y)(_ :: _))
+    aos.foldRight[Option[List[A]]](Some(Nil))((x,y) => map2(x,y)(_ :: _)) // constructs recursively a list then encapsulated in a monad
 
   // Exercise 10
 
   def traverse[A,B] (as: List[A]) (f :A => Option[B]): Option[List[B]] =    as match {
       case Nil => Some(Nil)
-      case h::t => map2(f(h), traverse(t)(f))(_ :: _)
+      case h::t => map2(f(h), traverse(t)(f))(_ :: _) //traverse is equivalent to map then sequence, 
+      // so you can use it when you have a function that returns an Applicative and you want to just get a single instance of your Applicative rather than a list of them
     }
 
 }
